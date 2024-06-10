@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link href="../estilos.css" rel="stylesheet" type="text/css" media="all">
+<link rel="stylesheet" type="text/css" href="tragaperras.css"></link>
+
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+<script type="text/javascript" src="lanyu.common.js"></script>
+<script type="text/javascript" src="slot.js"></script>
+<script type="text/javascript" src="banca.js"></script>
+<script type="text/javascript" src="tragaperras.js"></script>
+<title>TragaPerra oh si oh si</title>
+	<link rel="icon" href="angie.png">
+	<script src="https://kit.fontawesome.com/801222a0d1.js" crossorigin="anonymous"></script>
+</head>
+<body id="top" style="color: black">
+<!-- MENU -->
+<header id="header" class="hoc clear">
+	<div id="logo" class="fl_left" style="margin-right: 60px;">
+		<h1><a href="../index.php">RULETA DE ANGIE404_</a></h1>
+	</div>
+</header>
+
+<div id="encabezado">
+</div>
+<div id="maquina">
+  <div id="lineaSlots">
+    <div class="slot">
+      <img>
+    </div>
+    <div class="slot">
+      <img>
+    </div>
+    <div class="slot">
+      <img>
+    </div>
+  </div>
+</div>
+<div id="controles">
+	<div id="apuesta" class="iconos">
+		Apuesta: <input style="color: black" type="text" value="10"/>
+	</div>
+	<div id="spinner" class="iconos" onmouseup="parar()">
+		<i class="fa fa-refresh" aria-hidden="true"></i>
+		<span id="textoSpinner" > Girar </span>
+		<i class="fa fa-refresh" aria-hidden="true"></i>
+	</div>
+</div>
+<div id="banco">
+	<div id="cajetin" class="iconos"><span></span> <i class="fa fa-money" aria-hidden="true"></i></div>
+	<div id="saldo" class="iconos">Tu saldo es: <span></span> <i class="fa fa-money" aria-hidden="true"></i>
+	</div>
+	<div id="grafico"></div>
+</div>
+<div id="creditos" style="font-style: italic;">
+	<div>Todos los derechos reservados por </div>
+	<div class="iconos" onclick="window.open('https://lanyu-estudio.itch.io/', '_self')"><i class="fa fa-globe" aria-hidden="true"></i> LanyuEStudio</div>
+</div>
+<audio id="sonidoGirar" src="Y2meta.app%20-%20SONIDO%20DE%20MAQUINA%20CASINO%20-%20TRAGAMONEDAS%20-%20efecto%20de%20sonido%20(128%20kbps)%20(1).mp3"></audio>
+<script type="text/javascript">
+
+	//Funcion banca
+	function getApuesta(){
+		var apuestaMarcada = document.querySelector("#apuesta input").value;
+		if(!isNaN(apuestaMarcada) && apuestaMarcada <= banco.getSaldo() && apuestaMarcada > 0)
+			cambiarIcono("cajetin", "Apuestas " + apuestaMarcada); 
+		else {
+			alert("Apuesta no válida");
+			apuestaMarcada = 0;
+		}
+		banco.apuesta = apuestaMarcada;
+		
+		return banco.getApuesta();
+	}
+	
+	//Funciones Spinner
+	function girar() {
+		if(banco.getSaldo() == 0){
+			alert("Has perdido todo tu dinero. Vuelve a intentarlo.");
+			fin();
+		}
+		else if(giroAceptado()){
+			var audioGirar = document.getElementById("sonidoGirar");
+			audioGirar.play();
+			girarLineaSlots();
+			cambiarIcono("spinner", "Girando", "refresh");
+			activarElemento(document.querySelector("#maquina"), true);
+			resetSlots();
+		}
+	}
+	
+	function parar() {
+		if(estaGirando()){
+			pararLineaSlots(capasSlot);
+			activarElemento(spinner, false);
+		}
+	}
+	
+	//Funciones Saldo
+	notificarSaldo = function(){
+		if(banco.saldos.length > 1){
+			var ganancia = banco.getSaldo() - banco.getSaldoHistorico(1);
+			if(ganancia >= 0){
+				if(banco.getSaldo() >= 100){
+					alert("Has roto la banca. Fin del Juego");
+					fin();
+				}
+				cambiarIcono("cajetin", "Ganas " + ganancia);
+			}
+		}
+		cambiarIcono("saldo", banco.getSaldo());
+		mostrarHistorial();
+		activarElemento(spinner, true);
+		cambiarIcono("spinner", "Girar", "star");
+	}
+	
+	function mostrarHistorial(){
+		var grafico = document.getElementById("grafico");
+		vaciarElemento(grafico);
+		var inicio = banco.saldos.length > limiteSaldoParaMostrar ? limiteSaldoParaMostrar - 1 : banco.saldos.length - 1; 
+		for(var i = inicio; i >= 0 ; i--){
+			var signo = banco.getSaldoHistorico(i) - banco.getSaldoHistorico(i + 1) < 0 ? "Negativo" : "Positivo";
+			var celda = document.createElement("div");
+			celda.className = "celdaGrafico";
+			var valor = document.createElement("div");
+			valor.className = "valorSaldo saldo" + signo;
+			valor.textContent = Math.round(banco.getSaldoHistorico(i));
+			celda.appendChild(valor);
+			var barra = document.createElement("div");
+			barra.className = "barraGrafico barra" + signo;
+			barra.style.height = ((banco.getSaldoHistorico(i) < 100? banco.getSaldoHistorico(i) : 100)*.9) + "%";
+			celda.appendChild(barra);
+			grafico.appendChild(celda);
+		}
+	}
+	var textos = [
+		"La Amarga Ilusiones",
+		"La Mil Angustias",
+		"La Cashpiradora",
+		"La Ven que te lo Quito",
+		"La Reservada",
+		"La Hija de Puta",
+		"La Saca Cheles",
+		"La Funde Duros",
+		"La Traga Chavos",
+		"La Barre Sueldos",
+		"La Manga Pesos",
+		"La Destroza futuros",
+		"La Mil Colores",
+		"La Caprichosa",
+		"La Golosa",
+		"La innombrable",
+		"La destruye herencias",
+		"La Pela Carteras",
+		"La Niña Chica",
+		"La Endemoniada",
+		"La Arrebata Cuartos",
+		"La Engulle Lana",
+		"La Hostias Limpias",
+		"La Cruda Realidad",
+		"La 101 luces",
+		"La Despechá",
+		"La Glotona",
+		"La Busca Deudas",
+		"La Lumimosa",
+		"La Desmonta Hogares",
+		"La Destroza Familias",
+		"La Que te Cuento",
+		"La Mamona",
+		"La Devora Centavos",
+		"La Mil Traiciones",
+		"La Traga y no Escupe",
+		"La Arruina Vidas",
+		"La Provoca Divorcios",
+		"La Triple 7",
+		"La Recauda Fondos",
+		"La Maricarmen",
+		"La Cien Sonidos",
+		"La Pozo sin Fondo",
+		"La Dichosa",
+		"La Rencorosa",
+		"La Sin Remedio",
+		"La Mil Problemas",
+		"La Succiona Carteras",
+		"La Limpia Cuentas",
+		"La Crematoria",
+		"La Cuenta Cuentos",
+		"La Atraca Idiotas",
+		"La Arrebata Custodias",
+		"La Diez Disgustos",
+		"La Nubla Vistas",
+		"La Pierde Esperanza",
+		"La Mil Oportunidades",
+		"La Explota Nominas",
+		"La Implosionadora",
+		"La Despluma Salarios",
+		"La Mil Hechizos",
+		"La Succiona Pensiones",
+		"La Jode Pensiones",
+		"La Vacia Billeteras",
+		"La Aspira Billetes",
+		"La Atrapa Sueños",
+		"La Mil Pesadillas",
+		"La Sin Amigos",
+		"La Ahoga Penas",
+		"La Tres Carriles",
+		"La Quita Miedos",
+		"La Calentona",
+		"La Echa que te lo Devoro",
+		"La Dementora",
+		"La Euro Killer",
+		"La Chupa Almas",
+		"La 360 Grados",
+		"La Mil y Una Noches",
+		"La Saquea Bolsillos",
+		"La Rompe Esquemas",
+		"La Buscona",
+		"La Apisonadora",
+		"La Casa de Los Horrores",
+		"La Sin Piedad",
+		"La Hija de las Mil Putas",
+		"La Peta Prestamos",
+		"La Embarga Chozas",
+		"La Hunde Chabolas",
+		"La Dacia Sandero",
+		"La Hunde Animos",
+		"La Roba Pelas",
+		"La 2 Ranuras",
+		"La Traga Pospis",
+		"La Muy Chupona",
+		"La Come Mierdas",
+		"La Ronaldinho",
+		"La Absorbe Guita",
+		"La Rompe Bolsos",
+		"La Dame Cambio",
+		"La Mil Dolores",
+		"La Come Cocos",
+		"La Cuatro Stackciones",
+		"La Divide Finiquitos",
+		"La Chupa Sangre",
+		"La Humilla Pelas",
+		"La Fabrica Ilusiones"
+	];
+
+	function mostrarTextoAleatorio() {
+		// Seleccionar un índice aleatorio del array de textos
+		var indice = Math.floor(Math.random() * textos.length);
+		// Obtener el div donde se mostrará el texto aleatorio
+		var divTexto = document.getElementById("encabezado");
+		// Asignar el texto aleatorio al contenido del div
+		divTexto.textContent = textos[indice];
+	}
+	window.onload = mostrarTextoAleatorio;
+
+	//Funcion Fin de Juego
+	function esBancarrota(){
+		return banco.getSaldo() >= 100;
+	}
+	
+	function fin(){
+		document.getElementById("controles").removeChild(document.getElementById("spinner"));
+		activarElemento(document.querySelector("#maquina"), false);
+	}
+	
+	//Inicializar
+	var spinner = document.getElementById("spinner");
+	spinner.addEventListener("mousedown", girar);
+	
+	var capasSlot = document.getElementsByClassName("slot");
+	slotsActuales = new Array(capasSlot.length);
+	
+	for(let i = 0; i < capasSlot.length; i++){
+		capasSlot[i].onmousedown = function(event){
+			banco.apostar(getApuesta());
+			girarSlot(slotsActuales, i);
+			event.currentTarget.style.background = "yellow";
+		};
+		capasSlot[i].onmouseup = function(event){
+			pararGiro();
+			activarElemento(document.querySelector("#maquina"), false);
+		};
+	}
+	
+	function resetSlots(){
+		for(var i = 0; i < capasSlot.length; i++){
+			capasSlot[i].style = null;
+		}
+	}
+
+	for(var i = 0; i < slotsActuales.length; i++){
+		cargarSlot(slotsActuales, i, slotItems[0]);
+	}
+	banco = new Banca(50);
+	notificarSaldo();
+</script>
+</body>
+</html>

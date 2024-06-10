@@ -1,0 +1,86 @@
+body {
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-image: url("Closeup_Cards_Playing_440968.jpg");
+    background-size:cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color:#161C21;
+    );
+}
+
+#wheel {
+    width: 800px;
+    height: 800px;
+    border-radius: 50%;
+    border: 15px solid #000;
+    position: relative;
+    overflow: hidden;
+    transition: 5s;
+}
+
+.segment {
+    height: 50px;
+    width: 400px;
+    position: absolute;
+    clip-path: polygon(100% 0, 50% 100%, 0 0);
+    transform: translate(-50%);
+    transform-origin: bottom;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: sans-serif;
+    color: #fff;
+    margin-top: -19%;
+    margin-left: 25%;
+}
+
+.segment-text {
+    position: absolute;
+    left: -70px;
+    bottom: -350px;
+    width: 550px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(-90deg);
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+
+#spinButton, #addSegmentButton {
+    font-size: 20px;
+    padding: 10px;
+}
+
+
+.deleteButton {
+    background: darkred;
+    color: white;
+    border: none;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+#spinButton, #addSegmentButton {
+    font-size: 20px;
+    padding: 10px;
+}

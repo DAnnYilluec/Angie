@@ -1,0 +1,62 @@
+body {
+	padding: 0;
+	margin: 0;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	overflow: auto;
+	background-image: url("ifondo.png");
+	background-size:auto;
+	background-repeat: repeat;
+	background-attachment: fixed;
+	color: yellow !important;
+}
+#spin {
+	background-color: #FFFFFF; /* Fondo blanco para contraste */
+	color:#546A2E; /* Texto del color del fondo para coherencia */
+	padding: 10px 20px; /* Espaciado interno */
+	border: 2px solid #546A2E; /* Borde del color del fondo */
+	border-radius: 5px; /* Bordes redondeados */
+	text-transform: uppercase; /* Texto en mayúsculas */
+	font-weight: bold; /* Texto en negrita */
+	font-size: 16px; /* Tamaño del texto */
+	cursor: pointer; /* Cursor en forma de mano al pasar el ratón */
+	transition: background-color 0.3s, color 0.3s; /* Transición suave al cambiar de estado */
+	margin-top: 20px;
+}
+
+#spin:hover {
+	background-color: #546A2E; /* Fondo del color del fondo al pasar el ratón */
+	color: #FFFFFF; /* Texto blanco al pasar el ratón */
+}
+.tarjetilla {
+	background-color: #161C21;
+	border-radius: 4px;
+	padding: 20px; /* Añade un padding interior */
+	border: 2px solid #FFFFFF; /* Añade un borde blanco */
+	display: flex; /* Utiliza flexbox para alinear elementos */
+	justify-content: center; /* Centra contenido horizontalmente */
+	align-items: center; /* Centra contenido verticalmente */
+	text-align: center; /* Asegura que el texto también esté centrado */
+}
+@keyframes girar {
+	from { transform: rotate(0deg); }
+	to { transform: rotate(360deg); }
+}
+#ruletilla {
+	width: 500px;
+	height: 500px;
+	margin-bottom: 20px;
+}
+#ruleta{
+align-items: center;
+}
+
+#resultado,
+#resultadom {
+	display: block; /* Mostrar como bloque */
+	margin-top: 10px; /* Espacio entre los divs */
+	font-size: 20px;
+}
+

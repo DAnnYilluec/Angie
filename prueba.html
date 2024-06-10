@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Máquina Tragaperras</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .slot-machine {
+            margin: 50px auto;
+            width: 300px;
+        }
+        .slot {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            border: 1px solid #ccc;
+            margin: 0 5px;
+            vertical-align: top;
+            font-size: 40px;
+            line-height: 80px;
+            overflow: hidden;
+        }
+        .slot span {
+            animation: slot-fall 1s ease-out;
+        }
+        @keyframes slot-fall {
+            0% {
+                transform: translateY(-100%);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+        .spin-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="slot-machine">
+    <div class="slot" id="slot1"><span>🍒</span></div>
+    <div class="slot" id="slot2"><span>🍒</span></div>
+    <div class="slot" id="slot3"><span>🍒</span></div>
+    <button class="spin-button" onclick="spin()">¡Girar!</button>
+</div>
+
+<script>
+    function spin() {
+        var symbols = ['🍒', '🍊', '🍋', '🍇', '🍉']; // Puedes añadir más símbolos si lo deseas
+        var slot1 = document.getElementById('slot1').querySelector('span');
+        var slot2 = document.getElementById('slot2').querySelector('span');
+        var slot3 = document.getElementById('slot3').querySelector('span');
+
+        var result1 = Math.floor(Math.random() * symbols.length);
+        var result2 = Math.floor(Math.random() * symbols.length);
+        var result3 = Math.floor(Math.random() * symbols.length);
+
+        setTimeout(function() {
+            slot1.textContent = symbols[result1];
+            slot2.textContent = symbols[result2];
+            slot3.textContent = symbols[result3];
+
+            if (result1 === result2 && result2 === result3) {
+                alert('¡Felicidades, has ganado!');
+            } else {
+                alert('Lo siento, sigue intentando.');
+            }
+        }, 100); // Hacemos la transición después de 100ms para que la animación se ejecute correctamente
+    }
+</script>
+</body>
+</html>
