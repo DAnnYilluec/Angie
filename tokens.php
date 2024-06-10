@@ -13,7 +13,7 @@ function storeTokensInDatabase($accessToken, $refreshToken, $expiresIn) {
 }
 function checkAndRefreshToken($clientId, $clientSecret) {
     // Conexión a la base de datos
-    $pdo = new PDO('mysql:host=localhost;dbname=angieBD', 'root', '');
+  $pdo = new PDO('mysql:host=viaduct.proxy.rlwy.net;dbname=railway', 'root', 'gHulrpYXXJaoQOotvPHoUgzNeYHbNJjD');
     $stmt = $pdo->query("SELECT * FROM oauth_tokens ORDER BY id DESC LIMIT 1");
     $tokenData = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -65,7 +65,7 @@ function updateTokensInDatabase($accessToken, $refreshToken, $expiresIn) {
     $expiresAt = date('Y-m-d H:i:s', time() + $expiresIn);
 
     // Conexión a la base de datos
-    $pdo = new PDO('mysql:host=localhost;dbname=angieBD', 'root', '');
+    $pdo = new PDO('mysql:host=viaduct.proxy.rlwy.net;dbname=railway', 'root', 'gHulrpYXXJaoQOotvPHoUgzNeYHbNJjD');
     $stmt = $pdo->prepare("UPDATE oauth_tokens SET access_token = :access_token, refresh_token = :refresh_token, expires_at = :expires_at ORDER BY id DESC LIMIT 1");
     $stmt->execute([
         ':access_token' => $accessToken,
@@ -138,7 +138,7 @@ function storeSubscribersInDatabase($accessToken, $broadcasterId, $clientId, $su
     }
 
     // Conexión a la base de datos
-    $pdo = new PDO('mysql:host=localhost;dbname=angieBD', 'root', '');
+    $pdo = new PDO('mysql:host=viaduct.proxy.rlwy.net;dbname=railway', 'root', 'gHulrpYXXJaoQOotvPHoUgzNeYHbNJjD');
 
     foreach ($subscribers as $subscriber) {
         $userId = $subscriber['user_id'];
