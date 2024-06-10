@@ -3,7 +3,7 @@ function storeTokensInDatabase($accessToken, $refreshToken, $expiresIn) {
     $expiresAt = date('Y-m-d H:i:s', time() + $expiresIn);
 
     // Conexión a la base de datos
-    $pdo = new PDO('mysql:host=localhost;dbname=angieBD', 'root', '');
+    $pdo = new PDO('mysql:host=viaduct.proxy.rlwy.net;dbname=railway', 'root', 'gHulrpYXXJaoQOotvPHoUgzNeYHbNJjD');
     $stmt = $pdo->prepare("INSERT INTO oauth_tokens (access_token, refresh_token, expires_at) VALUES (:access_token, :refresh_token, :expires_at)");
     $stmt->execute([
         ':access_token' => $accessToken,
